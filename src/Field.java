@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Random;
+import java.util.Set;
+
+/**
+ * A Field is a grid that contains animals and acts as the environment of the simulation.
+ * 
+ * @author Conor McAvoy
+ *
+ */
+public class Field {
+	Square[][] squares;
+	int size;
+	ArrayList<Bunny> bunnies;
+	
+	/**
+	 * @param size
+	 */
+	public Field(int size) {
+		// default initial population of each animal is size
+		this(size, size, size);
+	}
+
+	/**
+	 * @param size
+	 * @param bunnies
+	 * @param foxes
+	 */
+	public Field(int size, int bunnies, int foxes) {
+		this.size = size;
+		
+		squares = new Square[size][size];
+		// initialize all squares
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				squares[y][x] = new Square(x, y);
+			}
+		}
+		
+		// set square neighbors
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				Square s = squares[y][x];
+				int right;
+				int left;
+				int up;
+				int down;
+			}
+		}
+		
+		ArrayList<Integer> positions = new ArrayList<>();
+		for (int i = 0; i < size*size; i++) {
+			positions.add(i);
+		}
+		Collections.shuffle(positions);
+		
+		for (int i = 0; i < bunnies; i++) {
+			int index = positions.get(i);
+			int x = index % size;
+			int y = index / size;
+			
+			Bunny b = new Bunny(x, y);
+			squares[y][x].setAnimal(b);
+		}
+		
+//		for (int i = bunnies; i < bunnies + foxes; i++) {
+//			int index = positions.get(i);
+//			int x = index % size;
+//			int y = index / size;
+//			
+//			Fox f = new Fox();
+//			squares[y][x].setAnimal(f);
+//		}
+		simulate(1);
+	}
+	
+	public void simulate(int rounds) {
+		for (int r = 0; r < rounds; r++) {
+			getBunnies();
+			for (Bunny b: bunnies) {
+				b.update();
+			}
+		}
+	}
+	
+	public void getBunnies() {
+		bunnies = new ArrayList<>();
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				if (squares[y][x].getAnimal().isBunny()) {
+					bunnies.add((Bunny) squares[y][x].getAnimal());
+				}
+			}
+		}
+	}
+}
