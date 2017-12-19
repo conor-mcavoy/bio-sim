@@ -43,10 +43,30 @@ public class Field {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				Square s = squares[y][x];
-				int right;
-				int left;
-				int up;
-				int down;
+				
+				if (x == 0) {
+					s.setWest(squares[y][size-1]);
+				} else {
+					s.setWest(squares[y][x-1]);
+				}
+				
+				if (x == size-1) {
+					s.setEast(squares[y][0]);
+				} else {
+					s.setWest(squares[y][x+1]);
+				}
+				
+				if (y == 0) {
+					s.setNorth(squares[size-1][x]);
+				} else {
+					s.setNorth(squares[y-1][x]);
+				}
+				
+				if (y == size-1) {
+					s.setSouth(squares[0][x]);
+				} else {
+					s.setSouth(squares[y+1][x]);
+				}
 			}
 		}
 		

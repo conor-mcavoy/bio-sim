@@ -2,6 +2,7 @@
 public class Bunny implements Animal {
 	int x;
 	int y;
+	Square position;
 	
 	public Bunny(int x, int y) {
 		this.x = x;

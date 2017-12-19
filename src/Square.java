@@ -1,8 +1,10 @@
-import java.util.ArrayList;
-
 public class Square {
 	private Animal animal;
-	private ArrayList<Square> neighbors;
+	
+	private Square north;
+	private Square east;
+	private Square south;
+	private Square west;
 	
 	final int x;
 	final int y;
@@ -20,11 +22,51 @@ public class Square {
 		this.animal = a;
 	}
 	
-	public ArrayList<Square> getNeighbors() {
-		return neighbors;
+	public Square getNorth() {
+		return north;
 	}
 	
-	public void addNeighbor(Square n) {
-		neighbors.add(n);
+	public void setNorth(Square s) {
+		this.north = s;
+	}
+	
+	public Square getNortheast() {
+		return north.getEast();
+	}
+
+	public Square getEast() {
+		return east;
+	}
+	
+	public void setEast(Square s) {
+		this.east = s;
+	}
+	
+	public Square getSoutheast() {
+		return south.getEast();
+	}
+	
+	public Square getSouth() {
+		return south;
+	}
+	
+	public void setSouth(Square s) {
+		this.south = s;
+	}
+	
+	public Square getSouthwest() {
+		return south.getWest();
+	}
+	
+	public Square getWest() {
+		return west;
+	}
+	
+	public void setWest(Square s) {
+		this.west = s;
+	}
+	
+	public Square getNorthwest() {
+		return north.getWest();
 	}
 }
