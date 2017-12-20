@@ -31,6 +31,36 @@ public class Field {
 	public Field(int size, int bunnies, int foxes) {
 		this.size = size;
 		
+		initializeSquares();
+		
+		ArrayList<Integer> positions = new ArrayList<>();
+		for (int i = 0; i < size*size; i++) {
+			positions.add(i);
+		}
+		Collections.shuffle(positions);
+		
+		for (int i = 0; i < bunnies; i++) {
+			int index = positions.get(i);
+			int x = index % size;
+			int y = index / size;
+			
+			Bunny b = new Bunny(x, y);
+			b.setPosition(squares[y][x]);
+			squares[y][x].setAnimal(b);
+		}
+		
+//		for (int i = bunnies; i < bunnies + foxes; i++) {
+//			int index = positions.get(i);
+//			int x = index % size;
+//			int y = index / size;
+//			
+//			Fox f = new Fox();
+//			squares[y][x].setAnimal(f);
+//		}
+		simulate(1);
+	}
+	
+	private void initializeSquares() {
 		squares = new Square[size][size];
 		// initialize all squares
 		for (int x = 0; x < size; x++) {
@@ -69,31 +99,6 @@ public class Field {
 				}
 			}
 		}
-		
-		ArrayList<Integer> positions = new ArrayList<>();
-		for (int i = 0; i < size*size; i++) {
-			positions.add(i);
-		}
-		Collections.shuffle(positions);
-		
-		for (int i = 0; i < bunnies; i++) {
-			int index = positions.get(i);
-			int x = index % size;
-			int y = index / size;
-			
-			Bunny b = new Bunny(x, y);
-			squares[y][x].setAnimal(b);
-		}
-		
-//		for (int i = bunnies; i < bunnies + foxes; i++) {
-//			int index = positions.get(i);
-//			int x = index % size;
-//			int y = index / size;
-//			
-//			Fox f = new Fox();
-//			squares[y][x].setAnimal(f);
-//		}
-		simulate(1);
 	}
 	
 	public void simulate(int rounds) {
