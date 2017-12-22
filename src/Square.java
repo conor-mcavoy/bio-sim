@@ -22,6 +22,10 @@ public class Square {
 		this.animal = a;
 	}
 	
+	public void removeAnimal() {
+		this.animal = null;
+	}
+	
 	public Square getNorth() {
 		return north;
 	}

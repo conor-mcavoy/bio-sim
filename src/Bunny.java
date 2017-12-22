@@ -69,4 +69,22 @@ public class Bunny implements Animal {
 				break;			
 		}
 	}
+	
+	public static void move(Bunny b, Square[][] squares) {
+		if (b.x == b.position.x && b.y == b.position.y) {
+			return;
+		}
+		
+		Square newPosition = squares[b.y][b.x];
+		if (newPosition.getAnimal() != null) { // collision detection
+			// currently if a collision is detected no motion will occur
+			b.x = b.position.x;
+			b.y = b.position.y;		
+			return;
+		}
+		
+		b.position.removeAnimal();
+		newPosition.setAnimal(b);
+		b.position = newPosition;
+	}
 }

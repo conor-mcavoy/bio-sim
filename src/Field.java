@@ -107,6 +107,10 @@ public class Field {
 			for (Bunny b: bunnies) {
 				b.update();
 			}
+			
+			for (Bunny b: bunnies) {
+				Bunny.move(b, squares);
+			}
 		}
 	}
 	
@@ -119,5 +123,9 @@ public class Field {
 				}
 			}
 		}
+	}
+	
+	public void display() {
+		
 	}
 }
