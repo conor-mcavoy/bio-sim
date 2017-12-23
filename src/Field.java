@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
+
+import javax.swing.JFrame;
 
 /**
  * A Field is a grid that contains animals and acts as the environment of the simulation.
@@ -11,26 +14,20 @@ import java.util.Set;
  *
  */
 public class Field {
-	Square[][] squares;
-	int size;
-	ArrayList<Bunny> bunnies;
+	private Square[][] squares;
+	private int size;
 	
-	/**
-	 * @param size
-	 */
+	private HashSet<Bunny> bunnies;
+	
 	public Field(int size) {
 		// default initial population of each animal is size
 		this(size, size, size);
 	}
 
-	/**
-	 * @param size
-	 * @param bunnies
-	 * @param foxes
-	 */
-	public Field(int size, int bunnies, int foxes) {
+	public Field(int size, int numOfBunnies, int numOfFoxes) {
 		this.size = size;
 		
+		initializeDisplay();
 		initializeSquares();
 		
 		ArrayList<Integer> positions = new ArrayList<>();
@@ -39,29 +36,25 @@ public class Field {
 		}
 		Collections.shuffle(positions);
 		
-		for (int i = 0; i < bunnies; i++) {
+		for (int i = 0; i < numOfBunnies; i++) {
 			int index = positions.get(i);
 			int x = index % size;
 			int y = index / size;
 			
 			Bunny b = new Bunny(x, y);
 			b.setPosition(squares[y][x]);
+			
+			bunnies.add(b);
+			
 			squares[y][x].setAnimal(b);
 		}
 		
-//		for (int i = bunnies; i < bunnies + foxes; i++) {
-//			int index = positions.get(i);
-//			int x = index % size;
-//			int y = index / size;
-//			
-//			Fox f = new Fox();
-//			squares[y][x].setAnimal(f);
-//		}
 		simulate(1);
 	}
 	
 	private void initializeSquares() {
 		squares = new Square[size][size];
+		
 		// initialize all squares
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -101,9 +94,16 @@ public class Field {
 		}
 	}
 	
+	private void initializeDisplay() {
+		
+	}
+	
 	public void simulate(int rounds) {
 		for (int r = 0; r < rounds; r++) {
-			getBunnies();
+			// getBunnies();
+			// ^may not be necessary as long as bunnies are added and removed
+			// to and from the HashSet bunnies properly
+			
 			for (Bunny b: bunnies) {
 				b.update();
 			}
@@ -115,7 +115,7 @@ public class Field {
 	}
 	
 	public void getBunnies() {
-		bunnies = new ArrayList<>();
+		bunnies = new HashSet<>();
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				if (squares[y][x].getAnimal().isBunny()) {
