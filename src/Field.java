@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -83,7 +84,7 @@ public class Field {
 				if (x == size-1) {
 					s.setEast(squares[y][0]);
 				} else {
-					s.setWest(squares[y][x+1]);
+					s.setEast(squares[y][x+1]);
 				}
 				
 				if (y == 0) {
@@ -102,26 +103,7 @@ public class Field {
 	}
 	
 	private void initializeDisplay() {
-        frame = new JFrame();
-        graphicsImage = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
-        graphics = graphicsImage.createGraphics();
         
-        graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, 512, 512);
-
-        // frame stuff
-        ImageIcon icon = new ImageIcon(graphicsImage);
-        JLabel draw = new JLabel(icon);
-
-        frame.setContentPane(draw);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
-
-        frame.setTitle("Display");
-
-        //frame.pack();
-        frame.requestFocusInWindow();
-        frame.setVisible(true);
 	}
 	
 	public void simulate(int rounds) {
