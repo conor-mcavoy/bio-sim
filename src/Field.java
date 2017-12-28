@@ -5,7 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * A Field is a grid that contains animals and acts as the environment of the simulation.
@@ -19,7 +21,11 @@ public class Field {
 	
 	private HashSet<Bunny> bunnies;
 	
-	public Field(int size) {
+	private JFrame frame;
+	private BufferedImage graphicsImage;
+	private Graphics2D graphics;
+	
+ 	public Field(int size) {
 		// default initial population of each animal is size
 		this(size, size, size);
 	}
@@ -36,6 +42,7 @@ public class Field {
 		}
 		Collections.shuffle(positions);
 		
+		bunnies =  new HashSet<>();
 		for (int i = 0; i < numOfBunnies; i++) {
 			int index = positions.get(i);
 			int x = index % size;
@@ -95,7 +102,26 @@ public class Field {
 	}
 	
 	private void initializeDisplay() {
-		
+        frame = new JFrame();
+        graphicsImage = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
+        graphics = graphicsImage.createGraphics();
+        
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, 512, 512);
+
+        // frame stuff
+        ImageIcon icon = new ImageIcon(graphicsImage);
+        JLabel draw = new JLabel(icon);
+
+        frame.setContentPane(draw);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
+
+        frame.setTitle("Display");
+
+        //frame.pack();
+        frame.requestFocusInWindow();
+        frame.setVisible(true);
 	}
 	
 	public void simulate(int rounds) {
@@ -126,6 +152,11 @@ public class Field {
 	}
 	
 	public void display() {
+		
+	}
+	
+	public static void main(String[] args) {
+		Field f = new Field(10);
 		
 	}
 }
