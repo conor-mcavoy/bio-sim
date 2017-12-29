@@ -3,6 +3,7 @@
  */
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.TreeSet;
@@ -69,7 +70,7 @@ public class Display {
         setYScale();
         
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, 512, 512);
+        graphics.fillRect(0, 0, width, height);
 
         // frame stuff
         ImageIcon icon = new ImageIcon(graphicsImage);
@@ -116,4 +117,57 @@ public class Display {
 		ymin = min - BORDER * size;
         ymax = max + BORDER * size;
 	}
+	
+	private static double  scaleX(double x) { return width  * (x - xmin) / (xmax - xmin); }
+    private static double  scaleY(double y) { return height * (ymax - y) / (ymax - ymin); }
+    private static double factorX(double w) { return w * width  / Math.abs(xmax - xmin);  }
+    private static double factorY(double h) { return h * height / Math.abs(ymax - ymin);  }
+    private static double   userX(double x) { return xmin + x * (xmax - xmin) / width;    }
+    private static double   userY(double y) { return ymax - y * (ymax - ymin) / height;   }
+	
+	public static void clear() {
+		clear(DEFAULT_CLEAR_COLOR);
+	}
+    
+    public static void clear(Color color) {
+        graphics.setColor(color);
+        graphics.fillRect(0, 0, width, height);
+        graphics.setColor(penColor);
+        draw();
+    }
+    
+    public static void setPenColor() {
+    	setPenColor(DEFAULT_PEN_COLOR);
+    }
+    
+    public static void setPenColor(Color color) {
+        penColor = color;
+        graphics.setColor(penColor);
+    }
+    
+    private static void pixel(double x, double y) {
+        graphics.fillRect((int) Math.round(scaleX(x)), (int) Math.round(scaleY(y)), 1, 1);
+    }
+    
+    public static void filledSquare(double x, double y, double r) {
+        double xs = scaleX(x);
+        double ys = scaleY(y);
+        double ws = factorX(2*r);
+        double hs = factorY(2*r);
+        if (ws <= 1 && hs <= 1) {
+        	pixel(x, y);
+        } else {
+        	graphics.fill(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+        }
+        draw();
+    }
+    
+    public static void show() {
+        draw();
+    }
+    
+    private static void draw() {
+        graphics.drawImage(graphicsImage, 0, 0, null);
+        frame.repaint();
+    }
 }

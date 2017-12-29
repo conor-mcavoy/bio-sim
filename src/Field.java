@@ -22,9 +22,6 @@ public class Field {
 	
 	private HashSet<Bunny> bunnies;
 	
-	private JFrame frame;
-	private BufferedImage graphicsImage;
-	private Graphics2D graphics;
 	
  	public Field(int size) {
 		// default initial population of each animal is size
@@ -103,7 +100,15 @@ public class Field {
 	}
 	
 	private void initializeDisplay() {
+        int N = 10;
+		
+		Display.show();
         
+		Display.setXScale(-0.5, N+0.5);
+		Display.setYScale(-0.5, N+0.5);
+		Display.clear();
+		Display.setPenColor(Display.BLACK);
+		Display.filledSquare(N/2.0, N/2.0, N/2.0);
 	}
 	
 	public void simulate(int rounds) {
