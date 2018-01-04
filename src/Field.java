@@ -11,7 +11,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 /**
- * A Field is a grid that contains animals and acts as the environment of the simulation.
+ * A Field is a grid that contains Animals inside Squares and acts as the environment of the simulation.
  * 
  * @author Conor McAvoy
  *
@@ -23,11 +23,22 @@ public class Field {
 	private HashSet<Bunny> bunnies;
 
 
+	/**
+	 * @param size Field will be size x size with size Bunnies and size Foxes.
+	 */
 	public Field(int size) {
 		// default initial population of each animal is size
 		this(size, size, size);
 	}
 
+	/**
+	 * Constructor initializes Square grid and Display, then places initial Bunnies and Foxes
+	 * and begins simulation.
+	 * 
+	 * @param size Field will be size x size.
+	 * @param numOfBunnies Initial number of Bunnies.
+	 * @param numOfFoxes Initial number of Foxes.
+	 */
 	public Field(int size, int numOfBunnies, int numOfFoxes) {
 		this.size = size;
 
@@ -57,6 +68,9 @@ public class Field {
 		simulate(10);
 	}
 
+	/**
+	 * Creates all Squares and links them together properly.
+	 */
 	private void initializeSquares() {
 		squares = new Square[size][size];
 
@@ -99,6 +113,9 @@ public class Field {
 		}
 	}
 
+	/**
+	 * Makes Display, sets scales for x- and y-axes, then colors in gray boxes.
+	 */
 	private void initializeDisplay() {
 		Display.show();
 
@@ -114,6 +131,12 @@ public class Field {
 		
 	}
 
+	/**
+	 * This method simulates the interactions of Animals with other Animals and
+	 * their environment and displays the results.
+	 * 
+	 * @param rounds Number of rounds to simulate.
+	 */
 	public void simulate(int rounds) {
 		display();
 		for (int r = 0; r < rounds; r++) {
@@ -132,6 +155,9 @@ public class Field {
 		}
 	}
 
+	/**
+	 * Maintains a HashSet of all Bunnies. Potentially unnecessary.
+	 */
 	public void getBunnies() {
 		bunnies = new HashSet<>();
 		for (int x = 0; x < size; x++) {
@@ -143,6 +169,10 @@ public class Field {
 		}
 	}
 
+	/**
+	 * Correctly colors the display to indicate the positions of
+	 * Bunnies, Foxes, and blank Squares.
+	 */
 	public void display() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {

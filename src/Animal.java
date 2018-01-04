@@ -5,7 +5,14 @@
  * @author Conor McAvoy
  *
  */
-public interface Animal {
+public abstract class Animal {
+	/**
+	 * @return Whether the animal is a bunny or not.
+	 */
 	public abstract boolean isBunny();
+	
+	/**
+	 * @return Whether the animal is a fox or not.
+	 */
 	public abstract boolean isFox();
 }
