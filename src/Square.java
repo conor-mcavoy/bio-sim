@@ -18,6 +18,10 @@ public class Square {
 		return this.animal;
 	}
 	
+	public boolean containsAnimal() {
+		return this.animal != null;
+	}
+	
 	public void setAnimal(Animal a) {
 		this.animal = a;
 	}
