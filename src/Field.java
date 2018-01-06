@@ -65,7 +65,7 @@ public class Field {
 			squares[y][x].setAnimal(b);
 		}
 
-		simulate(10);
+		simulate(100);
 	}
 
 	/**
@@ -147,11 +147,7 @@ public class Field {
 			for (Bunny b: bunnies) {
 				b.update();
 			}
-
-			for (Bunny b: bunnies) {
-				Bunny.move(b, squares);
-			}
-			display();
+			display(50);
 		}
 	}
 
@@ -168,12 +164,17 @@ public class Field {
 			}
 		}
 	}
-
+	
+	public void display() {
+		display(100);
+	}
+	
 	/**
 	 * Correctly colors the display to indicate the positions of
 	 * Bunnies, Foxes, and blank Squares.
 	 */
-	public void display() {
+	public void display(int time) {
+		
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
 				if (squares[y][x].containsAnimal()) {
@@ -187,7 +188,7 @@ public class Field {
 			}
 		}
 		
-		Display.show(100);
+		Display.show(time);
 	}
 
 	public static void main(String[] args) {

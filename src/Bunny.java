@@ -11,7 +11,8 @@ public class Bunny extends Animal {
 	int x;
 	int y;
 	private Square position;
-	
+	private boolean updated;
+
 	/**
 	 * Creates a Bunny inside a Square with specified x and y coordinates. The
 	 * Square should be set separately since Bunnies cannot access the full Field,
@@ -26,21 +27,21 @@ public class Bunny extends Animal {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * @return Square in which the Bunny resides.
 	 */
 	public Square getPosition() {
 		return position;
 	}
-	
+
 	/**
 	 * @param s The Square in which the Bunny resides.
 	 */
 	public void setPosition(Square s) {
 		position = s;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see Animal#isBunny()
 	 */
@@ -48,7 +49,7 @@ public class Bunny extends Animal {
 	public boolean isBunny() {
 		return true;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see Animal#isFox()
 	 */
@@ -61,52 +62,37 @@ public class Bunny extends Animal {
 	 * This updates where the Bunny is in the Field based on its surroundings
 	 * and current state. The current implementation is extremely sparse.
 	 * Motion is accomplished by recognizing a difference in the Bunny's
-	 *  x and y variables and its position variable, and reconciling the position
-	 *  accordingly. As mentioned above, this organization is liable to change.
+	 * x and y variables and its position variable, and reconciling the position
+	 * accordingly. As mentioned above, this organization is liable to change.
 	 */
-	public void update() {		
-		x = position.getNortheast().x;
-		y = position.getNortheast().y;
-		
-//		Random rng = new Random();
-//		int new_position = rng.nextInt(8);
-//		
-//		switch (new_position) {
-//			case 0:
-//				x = position.getNorth().x;
-//				y = position.getNorth().y;
-//				break;
-//			case 1:
-//				x = position.getNortheast().x;
-//				y = position.getNortheast().y;
-//				break;
-//			case 2:
-//				x = position.getEast().x;
-//				y = position.getEast().y;
-//				break;
-//			case 3:
-//				x = position.getSoutheast().x;
-//				y = position.getSoutheast().y;
-//				break;
-//			case 4:
-//				x = position.getSouth().x;
-//				y = position.getSouth().y;
-//				break;
-//			case 5:
-//				x = position.getSouthwest().x;
-//				y = position.getSouthwest().y;
-//				break;
-//			case 6:
-//				x = position.getWest().x;
-//				y = position.getWest().y;
-//				break;
-//			case 7:
-//				x = position.getNorthwest().x;
-//				y = position.getNorthwest().y;
-//				break;			
-//		}
+	public void update() {
+		updated = true;
+
+		Random rng = new Random();
+		int new_position = rng.nextInt(8);
+
+		Square new_square = position.getNeighbor(new_position);
+		if (!new_square.containsAnimal()) {
+			x = new_square.x;
+			y = new_square.y;
+			
+			position.removeAnimal();
+			new_square.setAnimal(this);
+			position = new_square;
+		}
+	}
+
+	@Override
+	public boolean isUpdated() {
+		return updated;
 	}
 	
+	@Override
+	public void reset() {
+		updated = false;
+	}
+
+
 	/**
 	 * Accomplished Bunny motion. See comments in update method.
 	 * 
@@ -117,7 +103,7 @@ public class Bunny extends Animal {
 		if (b.x == b.position.x && b.y == b.position.y) {
 			return;
 		}
-		
+
 		Square newPosition = squares[b.y][b.x];
 		if (newPosition.getAnimal() != null) { // collision detection
 			// currently if a collision is detected no motion will occur
@@ -125,7 +111,7 @@ public class Bunny extends Animal {
 			b.y = b.position.y;		
 			return;
 		}
-		
+
 		b.position.removeAnimal();
 		newPosition.setAnimal(b);
 		b.position = newPosition;

@@ -15,4 +15,8 @@ public abstract class Animal {
 	 * @return Whether the animal is a fox or not.
 	 */
 	public abstract boolean isFox();
+	
+	public abstract boolean isUpdated();
+
+	public abstract void reset();
 }
